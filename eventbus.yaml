@@ -1,0 +1,10 @@
+# -- https://raw.githubusercontent.com/argoproj/argo-events/v1.9.0/examples/eventbus/native.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: EventBus
+metadata:
+  name: default
+spec:
+  nats:
+    native:
+      replicas: 3
+      auth: token
