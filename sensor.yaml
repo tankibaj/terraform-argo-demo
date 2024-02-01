@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Sensor
+metadata:
+  name: sensor-terraform
+spec:
+  template:
+    serviceAccountName: workflow-generic-sa
+  dependencies:
+    - name: terraform-event
+      eventSourceName: eventsource-webhook
+      eventName: terraform
+  triggers:
+    - template:
+        name: workflow-trigger
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                generateName: terraform-
+              spec:
+                serviceAccountName: workflow-generic-sa
+                workflowTemplateRef:
+                  name: terraform
